@@ -54,20 +54,22 @@
         .carousel-item img {
             height: 100%;
             object-fit: cover;
-            filter: brightness(0.6); 
+            filter: brightness(0.5); /* Darker filter for better text readability on mobile */
         }
         .carousel-caption {
             bottom: 30%;
             z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
         }
+        
+        /* Desktop Carousel Text */
         .carousel-caption h1 {
             font-size: 3.5rem;
             font-weight: 800;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            margin-bottom: 1rem;
         }
         .carousel-caption p {
             font-size: 1.5rem;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
             margin-bottom: 2rem;
         }
 
@@ -81,6 +83,7 @@
             transition: all 0.3s;
             font-weight: 600;
             border: 2px solid var(--primary-blue);
+            font-size: 1.1rem;
         }
         .btn-custom-blue:hover {
             background-color: transparent;
@@ -218,7 +221,7 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        /* Overriding the centered title for the new specific layout if needed, 
+        /* Overriding centered title for new specific layout if needed, 
            but keeping it centered looks best generally. */
         .testimonials .section-title {
             text-align: left; /* Align left since col-lg-8 is used */
@@ -277,6 +280,40 @@
             color: #ffffff; 
             margin-top: 20px;
         }
+
+        /* --- MOBILE OPTIMIZATION --- */
+        @media (max-width: 768px) {
+            /* Navbar adjustment */
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            /* Carousel Optimization */
+            .carousel-caption {
+                bottom: 15%; /* Move up slightly on mobile so it doesn't get cut off */
+                width: 90%; /* Ensure text doesn't touch edges */
+                left: 5%;
+            }
+            
+            .carousel-caption h1 {
+                font-size: 1.8rem; /* Reduce font size significantly */
+                font-weight: 700;
+                line-height: 1.2;
+            }
+            
+            .carousel-caption p {
+                font-size: 0.9rem; /* Readable size for mobile */
+                margin-bottom: 1.5rem;
+            }
+
+            /* Button Optimization */
+            .btn-custom-blue {
+                padding: 8px 16px; /* Smaller padding */
+                font-size: 0.9rem; /* Smaller text */
+                width: 100%; /* Make buttons full width on mobile for easier tapping */
+                display: block;
+            }
+        }
     </style>
 </head>
 <body>
@@ -314,27 +351,30 @@
             <!-- Slide 1: Mobile First Design -->
             <div class="carousel-item active">
                 <img src="https://picsum.photos/seed/mobile1/1920/1080" class="d-block w-100" alt="Mobile Design">
-                <div class="carousel-caption d-none d-md-block">
+                <!-- REMOVED 'd-none d-md-block' so text shows on mobile -->
+                <div class="carousel-caption">
                     <h1>Mobile-First Design</h1>
-                    <p>Our website looks perfect on any device, ensuring the best user experience for all your visitors.</p>
+                    <p>Our website looks perfect on any device, ensuring the best user experience.</p>
                     <a href="#contact" class="btn btn-custom-blue">Contact Us</a>
                 </div>
             </div>
             <!-- Slide 2: SEO Focused -->
             <div class="carousel-item">
                 <img src="https://picsum.photos/seed/seo1/1920/1080" class="d-block w-100" alt="SEO Optimized">
-                <div class="carousel-caption d-none d-md-block">
+                <!-- REMOVED 'd-none d-md-block' so text shows on mobile -->
+                <div class="carousel-caption">
                     <h1>SEO Optimized</h1>
-                    <p>We build websites that rank higher on search engines, helping you attract more organic traffic.</p>
+                    <p>We build websites that rank higher on search engines.</p>
                     <a href="#services" class="btn btn-custom-blue">Our Services</a>
                 </div>
             </div>
             <!-- Slide 3: Call to Action -->
             <div class="carousel-item">
                 <img src="https://picsum.photos/seed/tech1/1920/1080" class="d-block w-100" alt="Professional Team">
-                <div class="carousel-caption d-none d-md-block">
+                <!-- REMOVED 'd-none d-md-block' so text shows on mobile -->
+                <div class="carousel-caption">
                     <h1>Ready to Grow?</h1>
-                    <p>Join hundreds of satisfied clients who have boosted their business with us.</p>
+                    <p>Join hundreds of satisfied clients who have boosted their business.</p>
                     <a href="#contact" class="btn btn-custom-blue">Get Started</a>
                 </div>
             </div>
@@ -601,7 +641,7 @@
                 <div class="col-md-5 mb-4">
                     <div class="p-4 bg-white rounded shadow-sm h-100">
                         <h4>Contact Information</h4>
-                        <p class="text-muted">We'd love to hear from you. Fill out the form or reach us directly.</p>
+                        <p class="text-muted">We'd love to hear from you. Fill out form or reach us directly.</p>
                         
                         <div class="mb-3">
                             <i class="fas fa-map-marker-alt text-primary me-2"></i>
