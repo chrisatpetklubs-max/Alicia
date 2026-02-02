@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive FAQ System</title>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: #1f2937;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Control Buttons */
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 1rem 2rem;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .btn-number {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        
+        .btn-number:hover {
+            background: #2563eb;
+            border-color: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn-expand {
+            background: white;
+            color: #6b7280;
+            border-color: #d1d5db;
+        }
+        
+        .btn-expand:hover {
+            border-color: #9ca3af;
+            background: #f9fafb;
+            transform: translateY(-2px);
+        }
+        
+        .btn-collapse {
+            background: white;
+            color: #ef4444;
+            border-color: #fecaca;
+        }
+        
+        .btn-collapse:hover {
+            border-color: #ef4444;
+            background: #fef2f2;
+            transform: translateY(-2px);
+        }
+        
+        .btn-highlight {
+            background: #1f2937;
+            color: white;
+            border-color: #1f2937;
+        }
+        
+        .btn-highlight:hover {
+            background: #111827;
+            border-color: #111827;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(31, 41, 55, 0.4);
+        }
+        
+        /* Search Box */
+        .search-box {
+            margin-bottom: 2rem;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #6366f1;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        .search-box input::placeholder {
+            color: #9ca3af;
+        }
+        
+        /* FAQ Items */
+        .faq-item {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            border-color: #d1d5db;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .faq-item.highlighted {
+            background: #fef3c7;
+            border-color: #fbbf24;
+        }
+        
+        .faq-question {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            cursor: pointer;
+            gap: 1rem;
+            transition: background 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background: #f9fafb;
+        }
+        
+        .faq-item.highlighted .faq-question:hover {
+            background: #fef3c7;
+        }
+        
+        .faq-number {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .faq-item:nth-child(1) .faq-number {
+            background: #6366f1;
+        }
+        
+        .faq-item:nth-child(2) .faq-number {
+            background: #8b5cf6;
+        }
+        
+        .faq-item:nth-child(3) .faq-number {
+            background: #ef4444;
+        }
+        
+        .faq-item:nth-child(4) .faq-number {
+            background: #6366f1;
+        }
+        
+        .faq-question-text {
+            flex: 1;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .faq-icon {
+            font-size: 1.2rem;
+            color: #6366f1;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+            color: #8b5cf6;
+        }
+        
+        .faq-answer {
+            display: none;
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            margin-left: 60px;
+            color: #6b7280;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+        
+        /* Footer Stats */
+        .footer-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #f9fafb;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .stat {
+            font-size: 1rem;
+            color: #6b7280;
+        }
+        
+        .stat strong {
+            color: #1f2937;
+            font-weight: 700;
+        }
+        
+        .collapse-badge {
+            background: #6b7280;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .footer-stats {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-icon">📚 Interactive FAQ System</div>
+        <h1>Interactive FAQ System</h1>
+        <p>Dynamic FAQ with jQuery Looping & Chaining</p>
+    </div>
+    
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Control Buttons -->
+        <div class="controls">
+            <button class="btn btn-number" id="numberAll">Number All</button>
+            <button class="btn btn-expand" id="expandAll">Expand All</button>
+            <button class="btn btn-collapse" id="collapseAll">Collapse All</button>
+            <button class="btn btn-highlight" id="highlightEven">Highlight Even</button>
+        </div>
+        
+        <!-- Search Box -->
+        <div class="search-box">
+            <input type="text" id="searchFAQ" placeholder="Search FAQs...">
+        </div>
+        
+        <!-- FAQ Items -->
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <div class="faq-number">1</div>
+                    <div class="faq-question-text">What is jQuery?</div>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    jQuery is a fast, small, and feature-rich JavaScript library. It makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers. With a combination of versatility and extensibility, jQuery has changed the way that millions of people write JavaScript.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <div class="faq-number">2</div>
+                    <div class="faq-question-text">Method Chaining?</div>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    Method chaining is a technique in jQuery where multiple methods can be called on the same element in a single statement. This is possible because most jQuery methods return the jQuery object itself, allowing you to chain multiple method calls together. For example: $('#element').addClass('active').fadeIn().css('color', 'blue'). This makes code more concise and readable.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <div class="faq-number">3</div>
+                    <div class="faq-question-text">The each() method?</div>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    The each() method in jQuery is used to iterate over a jQuery object, executing a function for each matched element. It's similar to looping through an array or collection. The method passes the index position and the DOM element to the callback function. This is extremely useful when you need to perform operations on multiple elements individually. Syntax: $.each(collection, function(index, element) { });
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <div class="faq-number">4</div>
+                    <div class="faq-question-text">Modern Frameworks?</div>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    Modern JavaScript frameworks like React, Vue, and Angular have gained popularity in recent years. However, jQuery still has its place in web development, especially for simpler projects, legacy codebases, and when you need quick DOM manipulation without the overhead of a full framework. Many developers use jQuery alongside modern frameworks for specific tasks. Understanding jQuery also helps you understand how modern frameworks work under the hood.
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer Stats -->
+        <div class="footer-stats">
+            <div class="stat">Total: <strong id="totalCount">4</strong></div>
+            <div class="stat">Expanded: <strong id="expandedCount">0</strong></div>
+            <div class="collapse-badge">All Collapsed</div>
+        </div>
+    </div>
+    
+    <script>
+        $(document).ready(function() {
+            // Toggle FAQ item
+            $('.faq-question').on('click', function() {
+                var faqItem = $(this).parent('.faq-item');
+                var faqAnswer = $(this).siblings('.faq-answer');
+                
+                // Toggle active class and slide answer
+                faqItem.toggleClass('active');
+                faqAnswer.slideToggle(300);
+                
+                // Update expanded count
+                updateExpandedCount();
+            });
+            
+            // Number All button
+            $('#numberAll').on('click', function() {
+                $('.faq-item').each(function(index) {
+                    $(this).find('.faq-number').text(index + 1)
+                           .css({
+                               'transform': 'scale(1.2)',
+                               'transition': 'transform 0.3s ease'
+                           });
+                    
+                    setTimeout(() => {
+                        $(this).find('.faq-number').css('transform', 'scale(1)');
+                    }, 300);
+                });
+            });
+            
+            // Expand All button
+            $('#expandAll').on('click', function() {
+                $('.faq-item').each(function(index) {
+                    var $this = $(this);
+                    setTimeout(function() {
+                        $this.addClass('active').find('.faq-answer').slideDown(300);
+                    }, index * 100);
+                });
+                updateExpandedCount();
+            });
+            
+            // Collapse All button
+            $('#collapseAll').on('click', function() {
+                $('.faq-item').each(function(index) {
+                    var $this = $(this);
+                    setTimeout(function() {
+                        $this.removeClass('active').find('.faq-answer').slideUp(300);
+                    }, index * 100);
+                });
+                updateExpandedCount();
+            });
+            
+            // Highlight Even button
+            $('#highlightEven').on('click', function() {
+                $('.faq-item').removeClass('highlighted');
+                $('.faq-item').each(function(index) {
+                    if ((index + 1) % 2 === 0) {
+                        $(this).addClass('highlighted');
+                    }
+                });
+            });
+            
+            // Search functionality
+            $('#searchFAQ').on('keyup', function() {
+                var searchText = $(this).val().toLowerCase();
+                
+                $('.faq-item').each(function() {
+                    var questionText = $(this).find('.faq-question-text').text().toLowerCase();
+                    var answerText = $(this).find('.faq-answer').text().toLowerCase();
+                    
+                    if (questionText.includes(searchText) || answerText.includes(searchText)) {
+                        $(this).fadeIn(300);
+                    } else {
+                        $(this).fadeOut(300);
+                    }
+                });
+            });
+            
+            // Update expanded count
+            function updateExpandedCount() {
+                setTimeout(function() {
+                    var expandedCount = $('.faq-item.active').length;
+                    $('#expandedCount').text(expandedCount);
+                    
+                    if (expandedCount === 0) {
+                        $('.collapse-badge').text('All Collapsed').css('background', '#6b7280');
+                    } else if (expandedCount === $('.faq-item').length) {
+                        $('.collapse-badge').text('All Expanded').css('background', '#10b981');
+                    } else {
+                        $('.collapse-badge').text('Partially Expanded').css('background', '#f59e0b');
+                    }
+                }, 350);
+            }
+            
+            // Initial count
+            $('#totalCount').text($('.faq-item').length);
+        });
+    </script>
+</body>
+</html>
