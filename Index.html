@@ -17,6 +17,7 @@
             --accent-red: #dc3545;   
             --dark-black: #212529;   
             --bg-white: #ffffff;
+            --footer-blue: #0f172a; /* Deep blue for footer */
         }
 
         body {
@@ -24,6 +25,8 @@
             background-color: var(--bg-white);
             color: var(--dark-black);
             padding-top: 76px; /* Offset for fixed navbar */
+            position: relative;
+            scroll-behavior: smooth; /* Smooth scrolling for jump links */
         }
 
         /* --- Navbar --- */
@@ -54,7 +57,7 @@
         .carousel-item img {
             height: 100%;
             object-fit: cover;
-            filter: brightness(0.5); /* Darker filter for better text readability on mobile */
+            filter: brightness(0.5);
         }
         .carousel-caption {
             bottom: 30%;
@@ -134,27 +137,38 @@
             font-size: 1.1rem;
         }
 
-        /* --- Services --- */
+        /* --- Services (Hover Effect) --- */
         .service-card {
             border: none;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
+            transition: all 0.3s ease; /* Smooth transition */
             padding: 30px;
             height: 100%;
             text-align: center;
+            display: none; /* Hidden initially for "View All" functionality */
         }
+        /* Show first 3 by default */
+        .service-card.default-visible {
+            display: block;
+        }
+        
+        /* Simple Hover Effect for Services */
         .service-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px); /* Lifts up */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15); /* Larger shadow */
+            background-color: #f8f9fa; /* Slight grey background change */
+            border-bottom: 4px solid var(--primary-blue); /* Blue underline */
         }
+
         .service-icon {
             font-size: 3rem;
             color: var(--primary-blue);
             margin-bottom: 20px;
         }
 
-        /* --- NEW TESTIMONIAL STYLES (From User Code) --- */
+        /* --- TESTIMONIAL CAROUSEL STYLES --- */
         .testimonials {
-            background-color: #ffffff; /* White background as requested */
+            background-color: #ffffff;
             padding: 80px 0;
         }
         .section-subtitle {
@@ -171,11 +185,7 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.05);
             height: 100%;
             position: relative;
-            margin-bottom: 30px;
-            transition: transform 0.3s ease;
-        }
-        .testimonial-card:hover {
-            transform: translateY(-5px);
+            margin: 20px;
         }
         .testimonial-card .fa-quote-right {
             font-size: 2rem;
@@ -213,105 +223,287 @@
             color: #777;
             font-weight: 500;
         }
-        .fade-in {
-            /* Simple animation class */
-            animation: fadeIn 0.8s ease-in-out;
+
+        /* --- IMPROVED CAROUSEL CONTROLS (Arrows) --- */
+        .carousel-control-prev-icon, 
+        .carousel-control-next-icon {
+            background-color: rgba(255, 255, 255, 0.5); /* White semi-transparent background */
+            border-radius: 50%;
+            padding: 15px; /* Make them larger */
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .carousel-control-prev, 
+        .carousel-control-next {
+            width: 60px; /* Wider area to click */
+            height: 60px;
+            background-color: rgba(0,0,0,0); /* Darker background for contrast */
+            opacity: 0.8;
+            border: 1px solid rgba(255,255,255,255,0.3);
+            border-radius: 50%;
         }
-        /* Overriding centered title for new specific layout if needed, 
-           but keeping it centered looks best generally. */
-        .testimonials .section-title {
-            text-align: left; /* Align left since col-lg-8 is used */
-        }
-        .testimonials .section-title::after {
-            margin: 15px 0 0; /* Remove center margin */
-        }
-        .testimonials .section-subtitle {
-            text-align: left; /* Align left */
-            margin-bottom: 50px;
+        .carousel-control-prev:hover, 
+        .carousel-control-next:hover {
+            background-color: var(--primary-blue);
+            opacity: 1;
+            transform: scale(1.1); /* Enlarge on hover */
         }
 
 
-        /* --- FAQ Accordion --- */
+        /* --- FAQ Accordion (Professional Look) --- */
         .accordion-button:not(.collapsed) {
             background-color: var(--primary-blue);
             color: white;
+            padding: 20px; /* More padding */
         }
         .accordion-button:focus {
             box-shadow: none;
         }
+        .accordion-body {
+            background-color: #f8f9fa; /* Slight grey bg for answers */
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        /* Hidden FAQs styling */
+        .extra-faq {
+            display: none; /* Hidden by default */
+        }
 
-        /* --- Blog --- */
+        /* --- Blog (Hover Effect & Hidden Posts) --- */
         .blog-img {
             height: 200px;
             object-fit: cover;
             width: 100%;
             border-radius: 5px;
+            transition: transform 0.3s ease;
         }
         .blog-card {
             box-shadow: 0 4px 10px rgba(0,0,0,0.08);
             margin-bottom: 30px;
             border: none;
+            transition: all 0.3s ease; /* Added hover effect */
+        }
+        /* Styling for hidden extra blog posts */
+        .extra-blog {
+            display: none; /* Hidden initially */
+        }
+        
+        /* HOVER EFFECT ON BLOG */
+        .blog-card:hover {
+            transform: translateY(-8px); /* Lifts up */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2); /* Strong shadow */
+        }
+        .blog-card:hover .blog-img {
+            transform: scale(1.05); /* Slight zoom on image */
         }
 
-        /* --- Footer --- */
+        /* --- Contact Form Validation Styles --- */
+        .is-invalid {
+            border-color: var(--accent-red);
+        }
+        .is-valid {
+            border-color: #198754;
+        }
+        .form-text {
+            font-size: 0.875em;
+            color: var(--accent-red);
+            display: none; /* Hidden by default */
+        }
+
+        /* --- NEW SUBSCRIBE CHECKBOX STYLES --- */
+        .newsletter-check-wrapper {
+            display: inline-block;
+            position: relative;
+            padding-left: 30px; /* Space for custom checkbox */
+            cursor: pointer;
+            user-select: none;
+        }
+        /* Hide the default checkbox but keep it accessible */
+        #subscribeCheck {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+            top: 0;
+            left: 0;
+        }
+        /* Custom Box */
+        .checkmark-box {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 24px;
+            width: 24px;
+            background-color: #eee;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        /* When Checked */
+        #subscribeCheck:checked ~ .checkmark-box {
+            background-color: #198754; /* Green */
+            border-color: #198754;
+        }
+        /* Tick Icon inside Box */
+        #subscribeCheck:checked ~ .checkmark-box:after {
+            display: block;
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 3px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        /* Text next to box */
+        .check-label-text {
+            font-weight: 500;
+        }
+
+        /* --- CONTACT INFO 3 COLUMN SECTION --- */
+        .contact-info-row {
+            margin-top: 50px;
+            background-color: #f8f9fa;
+            padding: 40px 0;
+            border-top: 1px solid #e9ecef;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .info-card {
+            text-align: center;
+            padding: 20px;
+        }
+        .info-icon-large {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+        }
+
+        /* --- NEW FOOTER STYLES --- */
         footer {
-            background-color: #1a1a1a;
-            color: #ccc;
-            padding: 50px 0 20px;
+            background-color: var(--footer-blue); /* Deep Blue */
+            color: #adb5bd; /* Light Gray Text */
+            padding: 60px 0 0 0;
+        }
+        footer h3 {
+            color: #ffffff;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        footer h5 {
+            color: #ffffff;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        footer p {
+            color: #adb5bd;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+        footer ul li {
+            margin-bottom: 12px;
         }
         footer a {
-            color: #ccc;
+            color: #adb5bd;
             text-decoration: none;
+            transition: color 0.3s;
         }
         footer a:hover {
             color: var(--primary-blue);
         }
         .social-icons a {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             margin-right: 15px;
+            color: white;
+            transition: color 0.3s;
         }
-        /* Fixing the copyright text to be bold and white on black background */
-        .footer-copyright {
+        .social-icons a:hover {
+            color: var(--primary-blue);
+        }
+        /* Newsletter Input in Footer */
+        .footer-newsletter input {
+            background: rgba(255,255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,255,0.1);
+            color: #fff;
+            padding: 10px;
+        }
+        .footer-newsletter input::placeholder {
+            color: #aaa;
+        }
+        .footer-newsletter input:focus {
+            background: rgba(255,255,255,255,0.15);
+            color: #fff;
+            box-shadow: none;
+            border-color: var(--primary-blue);
+        }
+        .footer-newsletter button {
+            background-color: var(--primary-blue);
+            border: none;
+            color: white;
             font-weight: bold;
-            color: #ffffff; 
-            margin-top: 20px;
+        }
+        /* Footer Copyright Bar */
+        .footer-bottom {
+            margin-top: 40px;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255,255,255,255,0.1);
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        /* --- Back To Top Button --- */
+        #backToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: var(--primary-blue);
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 50%;
+            font-size: 18px;
+            display: none; /* Hidden initially */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+        #backToTop:hover {
+            background-color: var(--dark-black);
+            transform: translateY(-3px);
         }
 
         /* --- MOBILE OPTIMIZATION --- */
         @media (max-width: 768px) {
-            /* Navbar adjustment */
             .navbar-brand {
                 font-size: 1.2rem;
             }
-
-            /* Carousel Optimization */
             .carousel-caption {
-                bottom: 15%; /* Move up slightly on mobile so it doesn't get cut off */
-                width: 90%; /* Ensure text doesn't touch edges */
+                bottom: 15%;
+                width: 90%;
                 left: 5%;
             }
-            
             .carousel-caption h1 {
-                font-size: 1.8rem; /* Reduce font size significantly */
-                font-weight: 700;
-                line-height: 1.2;
+                font-size: 1.8rem;
             }
-            
             .carousel-caption p {
-                font-size: 0.9rem; /* Readable size for mobile */
-                margin-bottom: 1.5rem;
+                font-size: 0.9rem;
             }
-
-            /* Button Optimization */
             .btn-custom-blue {
-                padding: 8px 16px; /* Smaller padding */
-                font-size: 0.9rem; /* Smaller text */
-                width: 100%; /* Make buttons full width on mobile for easier tapping */
+                padding: 8px 16px;
+                font-size: 0.9rem;
+                width: 100%;
                 display: block;
+            }
+            .about-img-col {
+                display: none;
             }
         }
     </style>
@@ -348,33 +540,30 @@
             <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
         </div>
         <div class="carousel-inner">
-            <!-- Slide 1: Mobile First Design -->
+            <!-- Slide 1 -->
             <div class="carousel-item active">
                 <img src="https://picsum.photos/seed/mobile1/1920/1080" class="d-block w-100" alt="Mobile Design">
-                <!-- REMOVED 'd-none d-md-block' so text shows on mobile -->
                 <div class="carousel-caption">
                     <h1>Mobile-First Design</h1>
-                    <p>Our website looks perfect on any device, ensuring the best user experience.</p>
+                    <p>Our website looks perfect on any device.</p>
                     <a href="#contact" class="btn btn-custom-blue">Contact Us</a>
                 </div>
             </div>
-            <!-- Slide 2: SEO Focused -->
+            <!-- Slide 2 -->
             <div class="carousel-item">
                 <img src="https://picsum.photos/seed/seo1/1920/1080" class="d-block w-100" alt="SEO Optimized">
-                <!-- REMOVED 'd-none d-md-block' so text shows on mobile -->
                 <div class="carousel-caption">
                     <h1>SEO Optimized</h1>
                     <p>We build websites that rank higher on search engines.</p>
                     <a href="#services" class="btn btn-custom-blue">Our Services</a>
                 </div>
             </div>
-            <!-- Slide 3: Call to Action -->
+            <!-- Slide 3 -->
             <div class="carousel-item">
                 <img src="https://picsum.photos/seed/tech1/1920/1080" class="d-block w-100" alt="Professional Team">
-                <!-- REMOVED 'd-none d-md-block' so text shows on mobile -->
                 <div class="carousel-caption">
                     <h1>Ready to Grow?</h1>
-                    <p>Join hundreds of satisfied clients who have boosted their business.</p>
+                    <p>Join hundreds of satisfied clients.</p>
                     <a href="#contact" class="btn btn-custom-blue">Get Started</a>
                 </div>
             </div>
@@ -389,14 +578,18 @@
         </button>
     </div>
 
-    <!-- About Us -->
+    <!-- About Us (Bootstrap 2 Column Layout) -->
     <section id="about" class="py-5 bg-white">
         <div class="container">
             <h2 class="section-title">About Us</h2>
-            <div class="row justify-content-center">
-                <div class="col-lg-8 text-center">
+            <div class="row align-items-center">
+                <!-- Column 1: Text -->
+                <div class="col-md-6 mb-4 mb-md-0">
                     <p class="lead">
-                        At <strong>Alicia Digital Studio</strong>, we are passionate about bridging the gap between stunning design and technical excellence. Founded by a team of SEO specialists and full-stack developers, we understand that a beautiful website is useless if no one can find it.
+                        At <strong>Alicia Digital Studio</strong>, we are passionate about bridging the gap between stunning design and technical excellence.
+                    </p>
+                    <p>
+                        Founded by a team of SEO specialists and full-stack developers, we understand that a beautiful website is useless if no one can find it.
                     </p>
                     <p>
                         We work closely with our clients to understand their unique brand voice and business goals. Our "homework" is your success—meaning we dive deep into market research before writing a single line of code.
@@ -406,44 +599,79 @@
                         <span class="badge bg-danger fs-6">100% Success Rate</span>
                     </div>
                 </div>
+                <!-- Column 2: Image -->
+                <div class="col-md-6">
+                    <img src="https://picsum.photos/seed/aboutus/600/400" alt="Team Working" class="img-fluid rounded shadow">
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Services -->
+    <!-- Services (With Hover Effect) -->
     <section id="services" class="py-5 bg-light">
         <div class="container">
             <h2 class="section-title">Our Services</h2>
-            <div class="row g-4">
+            <div class="row g-4" id="servicesGrid">
+                <!-- Default Visible Services -->
                 <div class="col-md-4">
-                    <div class="card service-card">
+                    <div class="card service-card default-visible">
                         <i class="fas fa-search service-icon"></i>
                         <h4>SEO Audits</h4>
-                        <p>Comprehensive analysis of your current site to identify technical issues and opportunities for ranking improvement.</p>
+                        <p>Comprehensive analysis of your current site to identify technical issues.</p>
                         <button class="btn btn-outline-primary scroll-trigger">View Details</button>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card service-card">
+                    <div class="card service-card default-visible">
                         <i class="fas fa-laptop-code service-icon"></i>
                         <h4>Web Development</h4>
-                        <p>Custom HTML/CSS/JS development tailored to your specific needs, ensuring speed and responsiveness.</p>
+                        <p>Custom HTML/CSS/JS development tailored to your specific needs.</p>
+                        <button class="btn btn-outline-primary scroll-trigger">View Details</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card service-card default-visible">
+                        <i class="fas fa-bullhorn service-icon"></i>
+                        <h4>Digital Strategy</h4>
+                        <p>Content planning and keyword strategies to position your brand.</p>
+                        <button class="btn btn-outline-primary scroll-trigger">View Details</button>
+                    </div>
+                </div>
+
+                <!-- Hidden Services (Loadable via jQuery) -->
+                <div class="col-md-4">
+                    <div class="card service-card">
+                        <i class="fas fa-mobile-alt service-icon"></i>
+                        <h4>App Development</h4>
+                        <p>Native mobile applications for iOS and Android platforms.</p>
                         <button class="btn btn-outline-primary scroll-trigger">View Details</button>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card service-card">
-                        <i class="fas fa-bullhorn service-icon"></i>
-                        <h4>Digital Strategy</h4>
-                        <p>Content planning and keyword strategies to position your brand as an industry leader.</p>
+                        <i class="fas fa-chart-line service-icon"></i>
+                        <h4>Data Analytics</h4>
+                        <p>Deep insights into your user behavior and traffic sources.</p>
+                        <button class="btn btn-outline-primary scroll-trigger">View Details</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card service-card">
+                        <i class="fas fa-shield-alt service-icon"></i>
+                        <h4>Cyber Security</h4>
+                        <p>Protecting your business from online threats and vulnerabilities.</p>
                         <button class="btn btn-outline-primary scroll-trigger">View Details</button>
                     </div>
                 </div>
             </div>
+
+            <div class="text-center mt-4">
+                <button id="viewAllServicesBtn" class="btn btn-primary">View All Services</button>
+            </div>
         </div>
     </section>
 
-    <!-- Testimonials Section (User's Custom Code) -->
+    <!-- Testimonials (Carousel Effect) -->
     <section id="testimonials" class="testimonials">
         <div class="container">
             <div class="row mb-5">
@@ -452,68 +680,107 @@
                     <p class="section-subtitle">What clients say about working with me</p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="testimonial-card fade-in">
-                        <i class="fas fa-quote-right"></i>
-                        <p class="testimonial-text">"Sarah transformed our online presence completely. Within six months, we saw a 300% increase in organic traffic and our revenue doubled. Her strategic approach and attention to detail are exceptional."</p>
-                        <div class="testimonial-author">
-                            <img src="https://i.pravatar.cc/150?img=12" alt="Michael Reynolds" class="author-image">
-                            <div class="author-info">
-                                <h5>Michael Reynolds</h5>
-                                <p>CEO, TechVenture Solutions</p>
+            
+            <!-- Bootstrap Carousel for Testimonials -->
+            <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="2"></button>
+                    <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <!-- Slide 1 -->
+                    <div class="carousel-item active">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <div class="testimonial-card">
+                                    <i class="fas fa-quote-right"></i>
+                                    <p class="testimonial-text">"Sarah transformed our online presence completely. Within six months, we saw a 300% increase in organic traffic and our revenue doubled. Her strategic approach and attention to detail are exceptional."</p>
+                                    <div class="testimonial-author">
+                                        <img src="https://i.pravatar.cc/150?img=12" alt="Michael Reynolds" class="author-image">
+                                        <div class="author-info">
+                                            <h5>Michael Reynolds</h5>
+                                            <p>CEO, TechVenture Solutions</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="carousel-item">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <div class="testimonial-card">
+                                    <i class="fas fa-quote-right"></i>
+                                    <p class="testimonial-text">"Working with Sarah has been a game-changer for our business. Her deep understanding of SEO and ability to translate complex strategies into actionable results is remarkable. Highly recommended!"</p>
+                                    <div class="testimonial-author">
+                                        <img src="https://i.pravatar.cc/150?img=45" alt="Jennifer Martinez" class="author-image">
+                                        <div class="author-info">
+                                            <h5>Jennifer Martinez</h5>
+                                            <p>Marketing Director, GlobalRetail Co.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="carousel-item">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <div class="testimonial-card">
+                                    <i class="fas fa-quote-right"></i>
+                                    <p class="testimonial-text">"The ROI we've achieved through Sarah's SEO expertise is phenomenal. She doesn't just improve rankings—she delivers business results. Our leads increased by 250% in first quarter alone."</p>
+                                    <div class="testimonial-author">
+                                        <img src="https://i.pravatar.cc/150?img=33" alt="David Chen" class="author-image">
+                                        <div class="author-info">
+                                            <h5>David Chen</h5>
+                                            <p>Founder, InnovateTech Startup</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slide 4 -->
+                    <div class="carousel-item">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <div class="testimonial-card">
+                                    <i class="fas fa-quote-right"></i>
+                                    <p class="testimonial-text">"Sarah's technical expertise and strategic vision helped us outrank our competitors in every key market. Her monthly reports are comprehensive and she always makes time to explain data."</p>
+                                    <div class="testimonial-author">
+                                        <img src="https://i.pravatar.cc/150?img=27" alt="Amanda Foster" class="author-image">
+                                        <div class="author-info">
+                                            <h5>Amanda Foster</h5>
+                                            <p>VP Marketing, Enterprise Solutions Inc.</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="testimonial-card fade-in">
-                        <i class="fas fa-quote-right"></i>
-                        <p class="testimonial-text">"Working with Sarah has been a game-changer for our business. Her deep understanding of SEO and ability to translate complex strategies into actionable results is remarkable. Highly recommended!"</p>
-                        <div class="testimonial-author">
-                            <img src="https://i.pravatar.cc/150?img=45" alt="Jennifer Martinez" class="author-image">
-                            <div class="author-info">
-                                <h5>Jennifer Martinez</h5>
-                                <p>Marketing Director, GlobalRetail Co.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="testimonial-card fade-in">
-                        <i class="fas fa-quote-right"></i>
-                        <p class="testimonial-text">"The ROI we've achieved through Sarah's SEO expertise is phenomenal. She doesn't just improve rankings—she delivers business results. Our leads increased by 250% in the first quarter alone."</p>
-                        <div class="testimonial-author">
-                            <img src="https://i.pravatar.cc/150?img=33" alt="David Chen" class="author-image">
-                            <div class="author-info">
-                                <h5>David Chen</h5>
-                                <p>Founder, InnovateTech Startup</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="testimonial-card fade-in">
-                        <i class="fas fa-quote-right"></i>
-                        <p class="testimonial-text">"Sarah's technical expertise and strategic vision helped us outrank our competitors in every key market. Her monthly reports are comprehensive and she always makes time to explain data."</p>
-                        <div class="testimonial-author">
-                            <img src="https://i.pravatar.cc/150?img=27" alt="Amanda Foster" class="author-image">
-                            <div class="author-info">
-                                <h5>Amanda Foster</h5>
-                                <p>VP Marketing, Enterprise Solutions Inc.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Enlarged and styled controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
         </div>
     </section>
 
-    <!-- FAQ Section -->
+    <!-- FAQ Section (With View All Logic & External Link) -->
     <section id="faqs" class="py-5 bg-light">
         <div class="container">
             <h2 class="section-title">Frequently Asked Questions</h2>
-            <p class="text-center mb-5">Find answers to common questions about our services and process.</p>
+            <p class="text-center mb-5">Find answers to common questions about our services.</p>
             
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -557,8 +824,9 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Item 4 -->
-                        <div class="accordion-item">
+                        
+                        <!-- EXTRA FAQ 1 (Hidden) -->
+                        <div class="accordion-item extra-faq" id="extraFaq1">
                             <h2 class="accordion-header" id="headingFour">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
                                     What is your pricing structure?
@@ -570,8 +838,8 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Item 5 -->
-                        <div class="accordion-item">
+                        <!-- EXTRA FAQ 2 (Hidden) -->
+                        <div class="accordion-item extra-faq" id="extraFaq2">
                             <h2 class="accordion-header" id="headingFive">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
                                     Do you provide website hosting?
@@ -586,18 +854,20 @@
                     </div>
                     
                     <div class="text-center mt-4">
-                        <button class="btn btn-outline-dark scroll-trigger">View All FAQs</button>
+                        <!-- This button now links to external page -->
+                        <button id="viewAllFaqsBtn" class="btn btn-outline-dark">View All FAQs</button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Blog Section -->
+    <!-- Blog Section (With Hover Effect & Load More) -->
     <section id="blog" class="py-5">
         <div class="container">
             <h2 class="section-title">Latest on Our Blog</h2>
             <div class="row">
+                <!-- Default Visible Posts -->
                 <div class="col-md-4">
                     <div class="card blog-card">
                         <img src="https://picsum.photos/seed/blog1/400/250" class="card-img-top blog-img" alt="Blog 1">
@@ -628,99 +898,200 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Hidden Extra Posts (Loadable via jQuery) -->
+                <div class="col-md-4">
+                    <div class="card blog-card extra-blog">
+                        <img src="https://picsum.photos/seed/blog4/400/250" class="card-img-top blog-img" alt="Blog 4">
+                        <div class="card-body">
+                            <h5 class="card-title">Social Media Marketing</h5>
+                            <p class="card-text">How to leverage social platforms for business growth.</p>
+                            <button class="btn btn-custom-red scroll-trigger">Read More</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card blog-card extra-blog">
+                        <img src="https://picsum.photos/seed/blog5/400/250" class="card-img-top blog-img" alt="Blog 5">
+                        <div class="card-body">
+                            <h5 class="card-title">The Future of AI</h5>
+                            <p class="card-text">Understanding Artificial Intelligence in web development.</p>
+                            <button class="btn btn-custom-red scroll-trigger">Read More</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card blog-card extra-blog">
+                        <img src="https://picsum.photos/seed/blog6/400/250" class="card-img-top blog-img" alt="Blog 6">
+                        <div class="card-body">
+                            <h5 class="card-title">E-commerce Best Practices</h5>
+                            <p class="card-text">Setting up a successful online store.</p>
+                            <button class="btn btn-custom-red scroll-trigger">Read More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-4">
+                <button id="loadMoreBlogBtn" class="btn btn-primary">Load more articles</button>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- Contact Section (Centralized Form) -->
     <section id="contact" class="py-5 bg-light">
         <div class="container">
             <h2 class="section-title">Reach Out to Us</h2>
-            <div class="row">
-                <!-- Contact Info -->
-                <div class="col-md-5 mb-4">
-                    <div class="p-4 bg-white rounded shadow-sm h-100">
-                        <h4>Contact Information</h4>
-                        <p class="text-muted">We'd love to hear from you. Fill out form or reach us directly.</p>
-                        
-                        <div class="mb-3">
-                            <i class="fas fa-map-marker-alt text-primary me-2"></i>
-                            <strong>Location:</strong><br>
-                            123 Digital Avenue, Tech City, TC 90210
-                        </div>
-                        <div class="mb-3">
-                            <i class="fas fa-phone text-primary me-2"></i>
-                            <strong>Phone:</strong><br>
-                            +1 (555) 123-4567
-                        </div>
-                        <div class="mb-3">
-                            <i class="fas fa-envelope text-primary me-2"></i>
-                            <strong>Email:</strong><br>
-                            hello@aliciadigital.com
-                        </div>
-
-                        <hr>
-                        <h5>Subscribe to our newsletter</h5>
-                        <form class="d-flex mt-2">
-                            <input type="email" class="form-control me-2" placeholder="Your email">
-                            <button class="btn btn-primary scroll-trigger">Join</button>
-                        </form>
-                    </div>
-                </div>
-
+            <p class="text-center mb-5">Ready to start your project? Contact us today for a free consultation.</p>
+            
+            <!-- Row with justify-content-center to centralize form -->
+            <div class="row justify-content-center">
                 <!-- Contact Form -->
-                <div class="col-md-7">
+                <div class="col-lg-8">
                     <div class="p-4 bg-white rounded shadow-sm">
                         <h4>Send us a message</h4>
-                        <form>
+                        <form id="contactForm">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">First Name</label>
-                                    <input type="text" class="form-control" required>
+                                    <input type="text" class="form-control" id="fname" required>
+                                    <small class="form-text">Please enter your first name.</small>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" required>
+                                    <input type="text" class="form-control" id="lname" required>
+                                    <small class="form-text">Please enter your last name.</small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Your Email</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                    <small class="form-text">Please enter a valid email address.</small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Subject</label>
+                                    <input type="text" class="form-control" id="subject" required>
+                                    <small class="form-text">Please enter a subject.</small>
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Email Address</label>
-                                <input type="email" class="form-control" required>
+                                <label class="form-label">Your Message</label>
+                                <textarea class="form-control" rows="5" id="message" required></textarea>
+                                <small class="form-text">Message cannot be empty.</small>
                             </div>
+                            
+                            <!-- Subscribe Checkbox -->
                             <div class="mb-3">
-                                <label class="form-label">Message</label>
-                                <textarea class="form-control" rows="5" required></textarea>
+                                <label class="newsletter-check-wrapper">
+                                    <input type="checkbox" id="subscribeCheck">
+                                    <span class="checkmark-box"></span>
+                                    <span class="check-label-text">Subscribe to our newsletter for updates and tips</span>
+                                </label>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100 scroll-trigger">Send Message</button>
+
+                            <button type="submit" class="btn btn-primary w-100">Send Message</button>
                         </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Info in 3 Columns (Underneath) -->
+            <div class="container contact-info-row">
+                <div class="row">
+                    <!-- Column 1: Location -->
+                    <div class="col-md-4">
+                        <div class="info-card">
+                            <i class="fas fa-map-marker-alt info-icon-large"></i>
+                            <h5>Location</h5>
+                            <p>123 Digital Avenue<br>Tech City, TC 90210</p>
+                        </div>
+                    </div>
+                    <!-- Column 2: Phone -->
+                    <div class="col-md-4">
+                        <div class="info-card">
+                            <i class="fas fa-phone info-icon-large"></i>
+                            <h5>Phone</h5>
+                            <p>+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                    <!-- Column 3: Email -->
+                    <div class="col-md-4">
+                        <div class="info-card">
+                            <i class="fas fa-envelope info-icon-large"></i>
+                            <h5>Email</h5>
+                            <p>hello@aliciadigital.com</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- NEW FOOTER (Correct Links) -->
     <footer>
-        <div class="container text-center">
-            <div class="mb-4">
-                <h3 class="text-white"><i class="fas fa-code"></i> Alicia Digital Studio</h3>
-            </div>
-            
-            <div class="social-icons mb-4">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
+        <div class="container">
+            <div class="row">
+                <!-- Column 1: Logo, Company Intro, Social Icons -->
+                <div class="col-lg-4 mb-4">
+                    <h3><i class="fas fa-code"></i> Alicia Digital Studio</h3>
+                    <p>
+                        We help businesses grow through professional web design and SEO strategies. Our mission is to provide quality service and results.
+                    </p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="#">Home</a></li> <!-- Jump to top -->
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Services List -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Services</h5>
+                    <ul>
+                        <li><a href="#services">Web Development</a></li>
+                        <li><a href="#services">Responsive Design</a></li>
+                        <li><a href="#services">SEO Optimization</a></li>
+                        <li><a href="#services">E-commerce</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Newsletter -->
+                <div class="col-lg-3 mb-4">
+                    <h5>Newsletter</h5>
+                    <p class="small">Subscribe to our newsletter to get the latest updates.</p>
+                    <form class="d-flex footer-newsletter">
+                        <input type="email" class="form-control" placeholder="Email Address">
+                        <button type="submit" class="btn">Subscribe</button>
+                    </form>
+                </div>
             </div>
 
-            <div class="mb-3">
-                <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+            <!-- Footer Bottom Row: Copyright & Links -->
+            <div class="row footer-bottom">
+                <div class="col-md-12 text-center">
+                    &copy; 2026 Alicia Digital Studio. All Rights Reserved. | 
+                    <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+                </div>
             </div>
-
-            <!-- Copyright text: Bold and White -->
-            <p class="footer-copyright">&copy; 2026 Alicia Digital Studio. All Rights Reserved.</p>
         </div>
     </footer>
+
+    <!-- Back To Top Button -->
+    <button onclick="topFunction()" id="backToTop" title="Go to top"><i class="fas fa-arrow-up"></i></button>
 
     <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -730,22 +1101,127 @@
     <!-- Custom jQuery Script -->
     <script>
         $(document).ready(function() {
-            // Interactive Button Behavior
-            // Buttons with class 'scroll-trigger' scroll to top (for blog read more, etc.)
-            $('.scroll-trigger').on('click', function(e) {
-                // Check if it's a submit button or inside a form
-                if(this.tagName === "BUTTON" && this.type === "submit") {
-                    e.preventDefault(); // Stop submit for demo
+            
+            // 1. Back to Top Button Logic
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 300) {
+                    $('#backToTop').fadeIn();
+                } else {
+                    $('#backToTop').fadeOut();
                 }
-                
-                $('html, body').animate({
-                    scrollTop: 0
-                }, 'slow');
             });
 
-            // Note: The Carousel buttons (href="#contact", href="#services") 
-            // use default HTML anchor behavior and are NOT affected by the above script.
+            $('#backToTop').click(function() {
+                $('html, body').animate({scrollTop: 0}, 500);
+                return false;
+            });
+
+            // 2. Form Validation & Submission Effect
+            $('#contactForm').submit(function(e) {
+                e.preventDefault(); // Stop actual submission
+                let isValid = true;
+
+                // Reset errors
+                $('.form-control').removeClass('is-invalid is-valid');
+                $('.form-text').hide();
+
+                // Validate First Name
+                if($('#fname').val().trim() === "") {
+                    $('#fname').addClass('is-invalid');
+                    $('#fname').next('.form-text').show();
+                    isValid = false;
+                } else {
+                    $('#fname').addClass('is-valid');
+                }
+
+                // Validate Email
+                if($('#email').val().trim() === "" || !$('#email').val().includes('@')) {
+                    $('#email').addClass('is-invalid');
+                    $('#email').next('.form-text').show();
+                    isValid = false;
+                } else {
+                    $('#email').addClass('is-valid');
+                }
+
+                // Validate Message
+                if($('#message').val().trim() === "") {
+                    $('#message').addClass('is-invalid');
+                    $('#message').next('.form-text').show();
+                    isValid = false;
+                } else {
+                    $('#message').addClass('is-valid');
+                }
+
+                // If Valid, Show Submission Effect
+                if(isValid) {
+                    let btn = $(this).find('button[type="submit"]');
+                    let originalText = btn.text();
+                    
+                    btn.text('Sending...').prop('disabled', true);
+                    
+                    // Simulate server delay
+                    setTimeout(function() {
+                        btn.removeClass('btn-primary').addClass('btn-success');
+                        btn.html('<i class="fas fa-check"></i> Message Sent!');
+                        
+                        // Clear form after 2 seconds
+                        setTimeout(function() {
+                            $('#contactForm')[0].reset();
+                            btn.text(originalText).removeClass('btn-success').addClass('btn-primary').prop('disabled', false);
+                            $('.form-control').removeClass('is-valid');
+                        }, 2000);
+                    }, 1500);
+                }
+            });
+
+            // 3. View All Services Button (Load More)
+            let servicesLoaded = false;
+            $('#viewAllServicesBtn').click(function() {
+                if(!servicesLoaded) {
+                    $('.service-card').slideDown(); // Reveal hidden cards
+                    $(this).text('Show Less'); // Change button text
+                    servicesLoaded = true;
+                } else {
+                    $('.service-card:not(.default-visible)').slideUp(); // Hide extra cards
+                    $(this).text('View All Services');
+                    servicesLoaded = false;
+                }
+            });
+
+            // 4. View All FAQs Button (Link to external page)
+            $('#viewAllFaqsBtn').click(function() {
+                // Navigate to the external FAQ page
+                window.location.href = 'https://alicefaqs.netlify.app/';
+            });
+
+            // 5. Blog "Load More Articles" Logic
+            let blogsLoaded = false;
+            $('#loadMoreBlogBtn').click(function() {
+                if(!blogsLoaded) {
+                    $('.extra-blog').slideDown(); // Reveal hidden posts
+                    $(this).text('Show Less');
+                    blogsLoaded = true;
+                } else {
+                    $('.extra-blog').slideUp(); // Hide extra posts
+                    $(this).text('Load more articles');
+                    blogsLoaded = false;
+                }
+            });
+
+            // 6. Blog Scroll to top (for "Read More")
+            $('.scroll-trigger').on('click', function(e) {
+                if(this.tagName === "BUTTON" && this.type === "submit") {
+                    e.preventDefault();
+                }
+                $('html, body').animate({scrollTop: 0}, 'slow');
+            });
         });
+
+        // Back to top function (inline)
+        function topFunction() {
+            document.body.scrollTop = 0; 
+            document.documentElement.scrollTop = 0; 
+        }
     </script>
 </body>
 </html>
